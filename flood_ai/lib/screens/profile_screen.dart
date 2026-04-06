@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'edit_profile_screen.dart';
 import 'change_password_screen.dart';
 import 'saved_locations_screen.dart';
+import 'login_screen.dart';
 
 
 class ProfileScreen extends StatelessWidget {
+  final int userId;
   final String name;
   final String email;
 
   const ProfileScreen({
     super.key,
+    required this.userId,
     required this.name,
     required this.email,
   });
@@ -110,7 +113,7 @@ class ProfileScreen extends StatelessWidget {
                 Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (_) => const SavedLocationsScreen(),
+                    builder: (_) => SavedLocationsScreen(userId: userId),
                 ),
                 );
             },
@@ -153,7 +156,11 @@ class ProfileScreen extends StatelessWidget {
             icon: const Icon(Icons.logout),
             label: const Text('Logout'),
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (_) => const LoginScreen()),
+                (route) => false,
+              );
             },
           ),
         ],

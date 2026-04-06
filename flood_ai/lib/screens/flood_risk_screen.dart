@@ -25,7 +25,7 @@ class FloodRiskScreen extends StatelessWidget {
                   SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      'Selected Location:\nKerala (Demo)',
+                      'Selected Location:\nAttingal',
                       style: TextStyle(fontSize: 14),
                     ),
                   ),
@@ -52,11 +52,11 @@ class FloodRiskScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    'MODERATE',
+                    'LOW',
                     style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
-                      color: Colors.orange,
+                      color: Colors.green,
                     ),
                   ),
                 ],
@@ -79,17 +79,17 @@ class FloodRiskScreen extends StatelessWidget {
 
           _IndicatorTile(
             title: 'Rainfall (last 24h)',
-            value: '85 mm',
+            value: '3 mm',
             icon: Icons.cloud,
           ),
           _IndicatorTile(
             title: 'River Water Level',
-            value: 'Rising',
+            value: 'stable',
             icon: Icons.trending_up,
           ),
           _IndicatorTile(
             title: 'Terrain Risk',
-            value: 'Medium',
+            value: 'low',
             icon: Icons.terrain,
           ),
 

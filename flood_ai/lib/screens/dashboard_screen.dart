@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
 import 'profile_screen.dart';
 import 'flood_risk_screen.dart';
-
-
+import 'login_screen.dart';
+import 'saved_locations_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
+  final int userId;
   final String name;
   final String email;
 
   const DashboardScreen({
     super.key,
+    required this.userId,
     required this.name,
     required this.email,
   });
@@ -23,7 +25,11 @@ class DashboardScreen extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (_) => const LoginScreen()),
+                (route) => false,
+              );
             },
           )
         ],
@@ -31,46 +37,12 @@ class DashboardScreen extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          // Welcome
-          Text(
-            'Hello, $name',
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            email,
-            style: const TextStyle(color: Colors.grey),
-          ),
-
-          const SizedBox(height: 16),
-
-          // Status Card
-          Card(
-            elevation: 1,
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Row(
-                children: const [
-                  Icon(Icons.info_outline, color: Colors.blue),
-                  SizedBox(width: 10),
-                  Expanded(
-                    child: Text(
-                      'System Status: Demo mode\n'
-                      'AI predictions will be enabled soon.',
-                      style: TextStyle(fontSize: 14),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-
+          Text('Hello, $name',
+              style:
+                  const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+          Text(email, style: const TextStyle(color: Colors.grey)),
           const SizedBox(height: 20),
 
-          // Action List
           _DashboardItem(
             icon: Icons.water,
             title: 'Flood Risk',
@@ -78,25 +50,25 @@ class DashboardScreen extends StatelessWidget {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(
-                  builder: (_) => const FloodRiskScreen(),
-                ),
+                MaterialPageRoute(builder: (_) => const FloodRiskScreen()),
               );
             },
           ),
 
           _DashboardItem(
-            icon: Icons.warning,
-            title: 'Alerts & Warnings',
-            subtitle: 'View latest alerts',
-            onTap: () => _comingSoon(context),
+            icon: Icons.person_pin_circle,
+            title: 'Saved Locations',
+            subtitle: 'Home, Work, School',
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => SavedLocationsScreen(userId: userId),
+                ),
+              );
+            },
           ),
-          _DashboardItem(
-            icon: Icons.map,
-            title: 'Safe Routes',
-            subtitle: 'Find safer paths',
-            onTap: () => _comingSoon(context),
-          ),
+
           _DashboardItem(
             icon: Icons.person,
             title: 'Profile',
@@ -105,23 +77,13 @@ class DashboardScreen extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => ProfileScreen(
-                    name: name,
-                    email: email,
-                  ),
+                  builder: (_) => ProfileScreen(userId: userId, name: name, email: email),
                 ),
               );
             },
           ),
-
         ],
       ),
-    );
-  }
-
-  static void _comingSoon(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Feature coming soon')),
     );
   }
 }
@@ -142,18 +104,10 @@ class _DashboardItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 1,
-      margin: const EdgeInsets.only(bottom: 10),
       child: ListTile(
         leading: Icon(icon, color: Colors.blue),
-        title: Text(
-          title,
-          style: const TextStyle(fontSize: 15),
-        ),
-        subtitle: Text(
-          subtitle,
-          style: const TextStyle(fontSize: 13),
-        ),
+        title: Text(title),
+        subtitle: Text(subtitle),
         trailing: const Icon(Icons.chevron_right),
         onTap: onTap,
       ),

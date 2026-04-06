@@ -5,6 +5,10 @@ const cors = require('cors');
 const bcrypt = require('bcryptjs');
 const db = require('./db');
 
+const savedLocationsRoutes = require('./routes/savedLocations');
+
+const floodZonesRoutes = require('./routes/floodZones');
+
 const app = express();
 const PORT = process.env.PORT || 5000;
 
@@ -12,10 +16,19 @@ const PORT = process.env.PORT || 5000;
 app.use(cors()); // allow Flutter Web
 app.use(express.json());
 
+app.use('/saved-locations', savedLocationsRoutes);
+
+app.use('/flood-zones', floodZonesRoutes);
+
 /* ---------- TEST ROUTE ---------- */
 app.get('/', (req, res) => {
   res.send('Flood AI Backend Running');
 });
+
+const floodPredictionRoutes = require('./routes/floodPrediction');
+
+app.use('/flood-prediction', floodPredictionRoutes);
+
 
 /* ---------- SIGNUP ---------- */
 app.post('/signup', async (req, res) => {
